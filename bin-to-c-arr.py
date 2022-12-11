@@ -23,7 +23,8 @@ with open(append_name, "rb") as app_f:
 
 arr_str_unparsed = binascii.hexlify(in_buffer)
 
-
+if(arr_str_unparsed % chars_per_element != 0):
+    arr_str_unparsed += "0" * (chars_per_element - arr_str_unparsed % chars_per_element)
 
 for i in range(int(len(arr_str_unparsed) / chars_per_element)):
     if(i % elements_per_line == 0):
