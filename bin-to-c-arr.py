@@ -87,8 +87,6 @@ remaining_elements = elements_per_line - elements_len % elements_per_line
 if(elements_len % elements_per_line == 0):
     remaining_elements = 0
 for i in range(remaining_elements):
-    print("add")
-    print(i)
     append_buffer += EMPTY_ELEMENT
 append_buffer += "\n"
 #not literally empty lol
