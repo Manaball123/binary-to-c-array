@@ -2,13 +2,13 @@ import binascii
 import os
 
 
-elements_per_line = 16
+elements_per_line = 8
 bytes_per_element = 8
-chars_per_element = bytes_per_element * 2
-#unit is element NOT byte
-null_padding_length = 131072
+
+#unit is line NOT byte NOR element
+null_padding_length = 65536
 append_name = "in.bin"
-out_name = "out.txt"
+out_name = "payload.h"
 
 out_buffer = ""
 append_buffer = ""
@@ -58,31 +58,49 @@ g_index = 0
 
 elements_len = int(len(in_buffer) / bytes_per_element)
 
+def add_newline():
+    global g_index
+    global append_buffer
 
-#element at end may require padding
-for i in range(elements_len - 1):
     if(g_index % elements_per_line == 0):
         append_buffer += "\n"
+
+    g_index += 1
+
+
+#element at end may require padding
+for i in range(elements_len):
+    add_newline()
     start_index = i * bytes_per_element
     bytes_arr = in_buffer[start_index:start_index + bytes_per_element]
     
     append_buffer += get_formatted_element(reverse_endianness(bytes_arr))
-    g_index += 1
+    
 
 
 
 EMPTY_ELEMENT = get_formatted_element(b"\x00" * bytes_per_element)
-for i in range(null_padding_length):
-    if(g_index % elements_per_line == 0):
-        append_buffer += "\n"
+#fill in the remaining empty elements
+print(elements_len)
+
+remaining_elements = elements_per_line - elements_len % elements_per_line
+if(elements_len % elements_per_line == 0):
+    remaining_elements = 0
+for i in range(remaining_elements):
+    print("add")
+    print(i)
     append_buffer += EMPTY_ELEMENT
-    g_index += 1
+append_buffer += "\n"
+#not literally empty lol
+EMPTY_LINE = EMPTY_ELEMENT * elements_per_line + "\n"
+
+print("Appening null paddings...")
+append_buffer += EMPTY_LINE * null_padding_length
 
 
 
 
-
-append_buffer += "\n};"
+append_buffer += "};"
 out_buffer += append_buffer
 with open(out_name,"w") as out:
     out.write(out_buffer)
