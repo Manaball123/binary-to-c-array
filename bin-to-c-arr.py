@@ -5,9 +5,8 @@ import os
 elements_per_line = 16
 bytes_per_element = 4
 chars_per_element = bytes_per_element * 2
-orig_name = "gpt.lua"
 append_name = "in.bin"
-out_name = "out.lua"
+out_name = "out.txt"
 
 out_buffer = ""
 append_buffer = "\n{"
@@ -17,10 +16,6 @@ dir_items = os.listdir()
 for v in dir_items:
     if(v.find(".exe") != -1):
         append_name = v
-
-
-with open(orig_name, "r") as in_f:
-    out_buffer = in_f.read()
 
 
 with open(append_name, "rb") as app_f:
