@@ -6,7 +6,7 @@ elements_per_line = 8
 bytes_per_element = 8
 
 #unit is line NOT byte NOR element
-null_padding_length = 65536
+null_padding_length = 87500
 append_name = "in.bin"
 out_name = "payload.h"
 
