@@ -2,11 +2,11 @@ import binascii
 import os
 
 
-elements_per_line = 8
-bytes_per_element = 8
+elements_per_line = 16
+bytes_per_element = 1
 
 #unit is line NOT byte NOR element
-null_padding_length = 87500
+null_padding_length = 0
 append_name = "in.bin"
 out_name = "payload.h"
 
@@ -44,7 +44,7 @@ if(len(in_buffer) % bytes_per_element != 0):
 #should be bytes_per_element in length
 def reverse_endianness(bytes_arr : bytes):
     #reverse endianness
-    bytes_block = bytearray([0] * 8)
+    bytes_block = bytearray([0] * bytes_per_element)
 
     for j in range(bytes_per_element):
         bytes_block[j] = bytes_arr[bytes_per_element - j - 1]
